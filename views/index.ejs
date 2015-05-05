@@ -9,11 +9,15 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone.js"></script>
             <script src="/app.js"></script>
             <script>
-                // use the - below so as not to escape characters! (?)
-                var posts = new Posts(<%- posts %>);
-                $("#main").append(new PostsListView({
-                    collection: posts
-                }).render().el);
+                // instantiate a router when the index is loaded
+                //in the options, pass in the posts from the server
+                //the main option is #main div (this could be anything)
+                var postRouter = new PostRouter({
+                    posts: new Posts(<%- posts %>),
+                    main: $("#main")
+                })
+
+                Backbone.history.start({pushState: true});
             </script>
     </body>
 </html>

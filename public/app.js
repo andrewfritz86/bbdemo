@@ -45,3 +45,26 @@ var PostsListView = Backbone.View.extend({
         return this;
     }
 })
+
+
+
+//router (so we can bookmark,etc)
+
+var PostRouter = Backbone.Router.extend({
+    initialize: function(options){
+        this.posts = options.posts;
+        this.main = options.main;
+    },
+    routes: {
+        '': 'index',
+        'posts/:id': 'singlePost'   
+         },
+    index: function(){
+      var pv = new PostsListView({collection: this.posts});
+      this.main.html(pv.render().el);
+    },
+
+    singlePost: function(id){
+      console.log("view post " + id);
+    }
+});
