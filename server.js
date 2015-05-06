@@ -27,6 +27,7 @@ app.get("/posts", function(req,res){
 app.post("/posts", function(req,res){
   console.log(req.body)
     posts.insert(req.body, function(result){
+      //ERROR beginging here, we send the result back to be rendered, something wrong with the id
         res.json(result);
     })
 })

@@ -39,7 +39,17 @@ var PostListView = Backbone.View.extend({
 //create a view class for the 'wrapper' of all the posts
 var PostsListView = Backbone.View.extend({
     //template that doesn't need any dynamic input
-    template: _.template("<h1> MY KILLER BLOG </h1><ul></ul>"),
+    template: _.template("<h2> hahaha </h2><a href='/posts/new'> hey </a><h1> MY KILLER BLOG</h1><ul></ul>"),
+    events: {
+        'click a': 'handleClick'
+    },
+
+    handleClick: function(event){
+        event.preventDefault();
+        postRouter.navigate($(event.currentTarget).attr("href"),
+            {trigger: true})
+    },
+
     render: function(){
         this.el.innerHTML = this.template();
         //use jquery to find the ul from the template after it's rendered
@@ -85,7 +95,13 @@ var PostFormView = Backbone.View.extend({
         this.posts = options.posts
     },
     events: {
-        'click button': 'createPost'
+        'click button': 'createPost',
+        'click a': 'handleClick'
+    },
+    handleClick: function(event){
+        event.preventDefault();
+        postRouter.navigate($(event.currentTarget).attr("href"),
+            {trigger: true})
     },
     render: function(){
         this.el.innerHTML = this.template();
