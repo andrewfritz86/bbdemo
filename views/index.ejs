@@ -13,6 +13,15 @@
                 <p> {{pubDate}}</p>
                 {{content}}
             </script>
+            <script type="text/template" id="postFormView">
+                <a href="/"> All Posts </a>
+                </br>
+                <input type="text" id="postTitle" placeholder="post title here"/>
+                </br>
+                <textarea id="postText"></textarea>
+                </br>
+                <button id="submitPost"> Post </button>               
+            </script>
             <script src="/app.js"></script>
             <script>
                 // instantiate a router when the index is loaded

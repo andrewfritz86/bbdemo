@@ -75,6 +75,39 @@ var PostView = Backbone.View.extend({
     }
 });
 
+//view for the form for posting new posts (!)
+
+var PostFormView = Backbone.View.extend({
+    tagname: 'form',
+    template: _.template($("#postFormView").html()),
+    //form view 'ingests' a posts collection and assigns it as a property
+    initialize: function(options){
+        this.posts = options.posts
+    },
+    events: {
+        'click button': 'createPost'
+    },
+    render: function(){
+        this.el.innerHTML = this.template();
+        return this;
+    },
+    createPost: function(event){
+        var postAttrs = {
+            content: $("#postText").val(),
+            title: $("#postTitle").val(),
+            pubDate: new Date()
+        };
+        //create method creates a new model, saves it to the server, and adds it to the collection
+        //analogous to
+        //var post = new Post(postAttrs)
+        //this.posts.add(post)
+        //post.save
+        this.posts.create(postAttrs);
+        postRouter.navigate("/", {trigger: true});
+        return false;
+    }
+})
+
 
 //router (so we can bookmark,etc)
 
@@ -85,7 +118,8 @@ var PostRouter = Backbone.Router.extend({
     },
     routes: {
         '': 'index',
-        'posts/:id': 'singlePost'   
+        'posts/new': 'newPost',   
+        'posts/:id': 'singlePost',
          },
     index: function(){
       var pv = new PostsListView({collection: this.posts});
@@ -93,9 +127,13 @@ var PostRouter = Backbone.Router.extend({
     },
 
     singlePost: function(id){
-      console.log("view post " + id);
       var post = this.posts.get(id);
       var pv = new PostView({model: post});
       this.main.html(pv.render().el);
+    },
+
+    newPost: function(){
+        var pfv = new PostFormView({posts: this.posts});
+        this.main.html(pfv.render().el);
     }
 });
